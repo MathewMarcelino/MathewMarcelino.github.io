@@ -66,7 +66,7 @@ let modelObject;
 
 let loadRoom = () => {
   let loader = new GLTFLoader();
-  loader.load("./assets/isometric_room/IscoMetric_Room (1).glb", (glb) => {
+  loader.load("./Assets/isometric_room/IscoMetric_Room (1).glb", (glb) => {
     // console.log(gltf);
     modelObject = glb.scene;
 
