@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+    <title>VirtuBox</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-dark bg-primary">
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 h1">VirtuBox</span>
+        </div>
+      </nav>
+
+      <div
+        class="d-flex justify-content-between align-items-center"
+        style="width: 40rem"
+      >
+        <h5>Timer:</h5>
+        <div class="d-flex align-items-center">
+          <input
+            type="number"
+            class="form-control"
+            style="width: 5rem; margin-right: 2px"
+            id="hour"
+            value="0"
+          />
+          <p>Hour(s)</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <input
+            type="number"
+            class="form-control"
+            style="width: 5rem; margin-right: 2px"
+            id="minute"
+            value="0"
+          />
+          <p>Minute(s)</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <input
+            type="number"
+            class="form-control"
+            style="width: 5rem; margin-right: 2px"
+            id="second"
+            value="0"
+          />
+          <p>Second(s)</p>
+        </div>
+        <div class="d-flex">
+          <button
+            class="btn btn-primary"
+            style="margin-right: 2px"
+            onclick="startTimer()"
+          >
+            Start
+          </button>
+          <button class="btn btn-primary" onclick="stopTimer()">Stop</button>
+        </div>
+      </div>
+      <p id="countdownTimer"></p>
+      <script>
+        var hourInput = 0;
+        var minuteInput = 0;
+        var secondInput = 0;
+        let currentTime = 0;
+        const startTiming = 0.1;
+        let time = startTiming * 60;
+        var loop;
+
+        const count = document.getElementById("countdownTimer");
+
+        function updateTimer() {
+          const minutes = Math.floor(time / 60);
+          let seconds = time % 60;
+
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+          count.innerHTML = `${minutes}:${seconds}`;
+          if (time == 0) {
+            clearInterval(loop);
+            alert("Time is up!!");
+          }
+          time--;
+        }
+
+        function startTimer() {
+          hourInput = Number(document.getElementById("hour").value);
+          minuteInput = Number(document.getElementById("minute").value);
+          secondInput = Number(document.getElementById("second").value);
+          time = secondInput + minuteInput * 60 + hourInput * 3600;
+          console.log(time);
+          loop = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+          console.log("stop");
+          clearInterval(loop);
+        }
+      </script>
+      <div id="music_list">
+        <audio controls autoplay></audio>
+      </div>
+      <script>
+        (function () {
+          // Playlist array
+          var files = [
+            "Assets/musics/1.mp3",
+            "Assets/musics/2.mp3",
+            "Assets/musics/3.mp3",
+            "Assets/musics/4.mp3",
+            "Assets/musics/5.mp3",
+            "Assets/musics/6.mp3",
+            "Assets/musics/7.mp3",
+            "Assets/musics/8.mp3",
+            "Assets/musics/9.mp3",
+            "Assets/musics/10.mp3",
+          ];
+
+          // Current index of the files array
+          var i = 0;
+
+          // Get the audio element
+          var music_player = document.querySelector("#music_list audio");
+
+          // function for moving to next audio file
+          function next() {
+            // Check for last audio file in the playlist
+            if (i === files.length - 1) {
+              i = 0;
+            } else {
+              i++;
+            }
+
+            // Change the audio element source
+            music_player.src = files[i];
+          }
+
+          // Check if the player is slected
+          if (music_player === null) {
+            throw "Playlist Player does not exists ...";
+          } else {
+            // Start the player
+            music_player.src = files[i];
+
+            // Listen for the music ended event, to play the next audio file
+            music_player.addEventListener("ended", next, false);
+          }
+        })();
+      </script>
+      <script src="index.js" type="module"></script>
+    </div>
+  </body>
+</html>
